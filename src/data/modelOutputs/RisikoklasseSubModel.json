@@ -1,0 +1,91 @@
+{
+    "modelDataDictionary": {
+        "risikoklasseFraTypeVirksomhet": {
+            "DmnId": "RisikoklasseFraTypeVirksomhet",
+            "DmnNavn": "Risikoklasse fra type virksomhet",
+            "TekKapitel": "11-2",
+            "TekLedd": null,
+            "TekTabell": "Tabell 1",
+            "TekBokstav": null,
+            "TekWebLink": "https://dibk.no/byggereglene/byggteknisk-forskrift-tek17/11/i/11-2/",
+            "InputVariablesInfo": [
+                {
+                    "VariabelId": "typeVirksomhet",
+                    "VariabelNavn": "Type virksomhet",
+                    "VariabelBeskrivelse": "Virksomhetstype, anvendelse av bygg, som har definert risikoklasse. Referanseliste for risikoklassifisering av noen typer virksomhet, med gyldig navn for type virksomhet https://register.geonorge.no/tek17/risikoklasseettertypevirksomhet"
+                }
+            ],
+            "OutputVariablesInfo": [
+                {
+                    "VariabelId": "rkl",
+                    "VariabelNavn": "Risikoklasse",
+                    "VariabelBeskrivelse": "Risikovurdering av bygg i tilfelle brann"
+                }
+            ]
+        },
+        "vedleggTilRisikoklasse": {
+            "DmnId": "VedleggTilRisikoklasse",
+            "DmnNavn": "Vedlegg Til Risikoklasse",
+            "TekKapitel": "11-2",
+            "TekLedd": null,
+            "TekTabell": "Tabell 1",
+            "TekBokstav": null,
+            "TekWebLink": "https://dibk.no/byggereglene/byggteknisk-forskrift-tek17/11/i/11-2/",
+            "InputVariablesInfo": [
+                {
+                    "VariabelId": "rkl",
+                    "VariabelNavn": "Risikoklasse",
+                    "VariabelBeskrivelse": "Risikovurdering av bygg i tilfelle brann"
+                }
+            ],
+            "OutputVariablesInfo": [
+                {
+                    "VariabelId": "beregnetForOvernatting",
+                    "VariabelNavn": "Beregnet for overnatting",
+                    "VariabelBeskrivelse": "Bygg er beregnet for overnatting"
+                },
+                {
+                    "VariabelId": "liteBrannfarligAktivitet",
+                    "VariabelNavn": "Lite brannfarlig aktivitet",
+                    "VariabelBeskrivelse": "Forutsatt bruk av bygg medfører liten brannfare"
+                },
+                {
+                    "VariabelId": "bareSporadiskPersonopphold",
+                    "VariabelNavn": "Bare sporadisk personopphold",
+                    "VariabelBeskrivelse": "Bygg der personer av og til oppholder seg"
+                },
+                {
+                    "VariabelId": "alleKjennerRomningsVeiene",
+                    "VariabelNavn": "Alle kjenner rømningsveiene",
+                    "VariabelBeskrivelse": "Alle i bygg kjenner rømningsforhold og kan bringe seg selv i sikkerhet"
+                }
+            ]
+        }
+    },
+    "modelInputs": {
+        "typeVirksomhet": "Museum"
+    },
+    "modelOutputs": {
+        "risikoklasseForklaring": {
+            "rklForklaring": "mer enn bare sporadisk personopphold,rømningsveier ikke alment kjent,ikke beregnet for overnatting,lite brannfarlig aktivitet"
+        },
+        "risikoklasseFraTypeVirksomhet": {
+            "rkl": "RKL5"
+        },
+        "vedleggTilRisikoklasse": {
+            "beregnetForOvernatting": false,
+            "liteBrannfarligAktivitet": true,
+            "bareSporadiskPersonopphold": false,
+            "alleKjennerRomningsVeiene": false
+        }
+    },
+    "info": "kun til test; løsningen er under utvikling!: API'et leverer et begrenset uttrekk av krav og preaksepterte ytelser for sikkerhet ved brann i TEK17 med veiledning. Unntak fra reglene er ikke tatt med, og uttrekket kan derfor ikke brukes ved prosjektering",
+    "ExecutionInfo": {
+        "ExecutionId": "14fa3c30-90fd-11e9-8106-000d3ab1f8a7",
+        "Navn": "Matias",
+        "e-post": "epost@test.no",
+        "OrgNr": "123456789",
+        "OrgNavn": "Arkitektum",
+        "Dato": "17.06.2019 12:40"
+    }
+}
