@@ -1,5 +1,5 @@
 <template>
-  <md-app md-waterfall md-mode="fixed">
+  <md-app>
     <md-app-toolbar class="md-primary">
       <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
         <md-icon>menu</md-icon>
@@ -49,7 +49,7 @@
         <div class="md-layout md-gutter">
           <div class="md-layout-item">
             <md-field>
-              <label for="movies">Movies</label>
+              <label for="visibleModelOutputFields">Synlige kolonner</label>
               <md-select v-model="visibleModelOutputFields" name="visibleModelOutputFields" id="visibleModelOutputFields" md-dense multiple>
                 <md-option :value="modelOutputField" v-for="modelOutputField in modelOutputFields" :key="modelOutputField">{{ modelOutputField }}</md-option>
               </md-select>
