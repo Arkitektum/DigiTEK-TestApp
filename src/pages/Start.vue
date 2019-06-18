@@ -66,7 +66,7 @@
             </md-table-toolbar>
             <md-table-empty-state
             md-label="No fields found"
-            :md-description="`No fields found for this '${search}' query. Try a different search term.`">
+            :md-description="`No fields found for this query. Try a different search term.`">
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }">
             <md-table-cell
