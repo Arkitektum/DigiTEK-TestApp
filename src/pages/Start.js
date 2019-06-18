@@ -22,15 +22,18 @@ export default {
     currentSort: 'DmnId',
     currentSortOrder: 'asc',
     fields: [],
+    filteredFields: [],
     models: models,
     selectedInputValues: modelInputs,
-    visibleModelOutputFields: modelOutputFields
+    visibleModelOutputFields: modelOutputFields,
+    search: null
   }),
   watch: {
     selectedModelName() {
       this.selectedModel = this.getSelectedModel();
       this.dummydata = this.getSelectedDummyData();
       this.updateFields();
+      this.searchOnTable();
     }
   },
   methods: {
@@ -121,6 +124,18 @@ export default {
       } else {
         return true;
       }
+    },
+    toLower(text) {
+      return text.toString().toLowerCase();
+    },
+    searchByName(items, term) {
+      if (term) {
+        return items.filter(item => this.toLower(item.VariabelNavn).includes(this.toLower(term)))
+      }
+      return items
+    },
+    searchOnTable () {
+      this.filteredFields = this.searchByName(this.fields, this.search)
     }
   }
 };

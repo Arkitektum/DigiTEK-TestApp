@@ -54,21 +54,34 @@
                 <md-option :value="modelOutputField" v-for="modelOutputField in modelOutputFields" :key="modelOutputField">{{ modelOutputField }}</md-option>
               </md-select>
             </md-field>
+            <md-field md-clearable>
+              <md-input placeholder="Search by variable name..." v-model="search" @input="searchOnTable" />
+            </md-field>
           </div>
         </div>
-        <form novalidate class="md-layout" v-if="fields && fields.length">
-          <md-table v-model="fields" :md-sort.sync="currentSort" :md-sort-order.sync="currentSortOrder" :md-sort-fn="customSort" md-card>
+        <div class="md-layout md-gutter" v-if="fields && fields.length">
+          <md-table v-model="filteredFields" :md-sort.sync="currentSort" :md-sort-order.sync="currentSortOrder" :md-sort-fn="customSort" md-card>
             <md-table-toolbar>
               <h1 class="md-title"></h1>
             </md-table-toolbar>
-            <md-table-row slot="md-table-row" slot-scope="{ item }">
-              <md-table-cell :md-label="modelOutputField" :md-sort-by="modelOutputField" v-for="modelOutputField in visibleModelOutputFields" :key="modelOutputField">{{ item[modelOutputField] }}</md-table-cell>
-            </md-table-row>
-          </md-table>
-        </form>
-      </main>
-    </md-app-content>
-  </md-app>
+            <md-table-empty-state
+            md-label="No fields found"
+            :md-description="`No fields found for this '${search}' query. Try a different search term.`">
+          </md-table-empty-state>
+          <md-table-row slot="md-table-row" slot-scope="{ item }">
+            <md-table-cell
+            :md-label="modelOutputField"
+            :md-sort-by="modelOutputField"
+            v-for="modelOutputField in visibleModelOutputFields"
+            :key="modelOutputField">
+            {{ item[modelOutputField] }}
+          </md-table-cell>
+        </md-table-row>
+      </md-table>
+    </div>
+  </main>
+</md-app-content>
+</md-app>
 </template>
 
 <style lang="scss" src="./Start.scss"></style>
