@@ -86,8 +86,8 @@ export default {
     },
     getFieldValue(dmnTable, field) {
       return this.dummydata.modelOutputs[dmnTable] && this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-        ? this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-        : null;
+      ? this.dummydata.modelOutputs[dmnTable][field.VariabelId]
+      : null;
     },
     getFields(fieldType) {
       fieldType = fieldType === 'output' ? 'output' : 'input';
@@ -115,9 +115,6 @@ export default {
     },
     modelOutputFieldIsVisible(modelOutputField) {
       if (this.visibleModelOutputFields && this.visibleModelOutputFields.length) {
-        console.log(this.visibleModelOutputFields.find(outputValue => {
-          return outputValue === modelOutputField;
-        }));
         return this.visibleModelOutputFields.find(outputValue => {
           return outputValue === modelOutputField;
         });
