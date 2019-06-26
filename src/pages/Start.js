@@ -43,13 +43,11 @@ export default {
     translateInputType(modelInputType) {
       switch (modelInputType) {
         case 'string':
-        return 'text';
-        break;
+          return 'text';
         case 'integer':
-        return 'number';
-        break;
+          return 'number';
         default:
-        return 'text';
+          return 'text';
       }
     },
     getSelectedModel() {
@@ -86,8 +84,8 @@ export default {
     },
     getFieldValue(dmnTable, field) {
       return this.dummydata.modelOutputs[dmnTable] && this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-      ? this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-      : null;
+        ? this.dummydata.modelOutputs[dmnTable][field.VariabelId]
+        : null;
     },
     getFields(fieldType) {
       fieldType = fieldType === 'output' ? 'output' : 'input';
@@ -127,12 +125,12 @@ export default {
     },
     searchByName(items, term) {
       if (term) {
-        return items.filter(item => this.toLower(item.VariabelNavn).includes(this.toLower(term)))
+        return items.filter(item => this.toLower(item.VariabelNavn).includes(this.toLower(term)));
       }
-      return items
+      return items;
     },
-    searchOnTable () {
-      this.filteredFields = this.searchByName(this.fields, this.search)
+    searchOnTable() {
+      this.filteredFields = this.searchByName(this.fields, this.search);
     }
   }
 };
