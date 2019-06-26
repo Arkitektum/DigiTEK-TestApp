@@ -1,7 +1,13 @@
 body {
   font-family: "Roboto", sans-serif;
+  height: 100%;
+}
+
+.page-container {
+  height: 100%;
 }
 
 .md-app {
-    min-height: 450px;
-  }
+  min-height: 450px;
+  height: 100%;
+}
