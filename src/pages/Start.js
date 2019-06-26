@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import dummydata from '@/data/dummydata.json';
 import models from '@/data/models.js';
 import modelInputs from '@/data/modelInputs.js';
@@ -17,15 +19,18 @@ export default {
     },
     modelOutputVariables,
     dummydata: dummydata,
-    selectedModelId: null,
+    models: models,
+    codeLists: {
+      typeVirksomhet: null
+    },
     selectedModel: null,
+    selectedModelId: null,
     currentSort: 'DmnId',
     currentSortOrder: 'asc',
     outputVariables: [],
     filteredOutputVariables: [],
-    models: models,
-    selectedInputValues: modelInputs,
     visibleModelOutputVariables: modelOutputVariables,
+    selectedInputValues: modelInputs,
     search: null
   }),
   watch: {
@@ -35,6 +40,9 @@ export default {
       this.updateOutputVariables();
       this.searchOnTable();
     }
+  },
+  mounted() {
+    this.fetchBusinessTypes();
   },
   methods: {
     toggleMenu() {
@@ -49,6 +57,22 @@ export default {
         default:
           return 'text';
       }
+    },
+    fetchBusinessTypes() {
+      axios.get('https://register.geonorge.no/api/tek17/risikoklasseettertypevirksomhet.json')
+        .then(response => {
+          this.codeLists.typeVirksomhet = response && response.data && response.data.containeditems
+            ? response.data.containeditems.map(item => {
+              return {
+                key: item.label,
+                value: item.label
+              };
+            })
+            : null;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     getSelectedModel() {
       if (this.selectedModelId && this.models && this.models.length) {

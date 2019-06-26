@@ -36,6 +36,12 @@
             <md-radio v-model="selectedInputValues[modelInputKey]" :value="false">Nei</md-radio>
             <md-radio v-model="selectedInputValues[modelInputKey]" :value="null">Ikke valgt</md-radio>
           </div>
+          <md-field v-else-if="modelInputType === 'codeList'">
+            <label for="modelInputKey">{{ modelInputKey }}</label>
+            <md-select v-model="selectedInputValues[modelInputKey]" :id="modelInputKey" :name="modelInputKey">
+              <md-option :value="model.value" :key="model.key" v-for="model in codeLists[modelInputKey]">{{ model.key }}</md-option>
+            </md-select>
+          </md-field>
           <md-field v-else>
             <label for="modelInputKey">{{ modelInputKey }}</label>
             <md-input v-model="selectedInputValues[modelInputKey]" :type="translateInputType(modelInputType)" :id="modelInputKey" :name="modelInputKey" />

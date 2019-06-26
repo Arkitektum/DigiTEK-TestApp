@@ -3,7 +3,7 @@ export default [
     modelName: 'BranntekniskProsjekteringModel',
     modelId: 'branntekniskProsjekteringModel',
     modelInputs: {
-      typeVirksomhet: 'string',
+      typeVirksomhet: 'codeList',
       antallEtasjer:	'integer',
       brtArealPrEtasje:	'integer',
       arealBrannseksjonPrEtasje: 'integer',
@@ -19,7 +19,7 @@ export default [
     modelName: 'RisikoklasseSubModel',
     modelId: 'risikoklasseSubModel',
     modelInputs: {
-      typeVirksomhet: 'string',
+      typeVirksomhet: 'codeList',
       bareSporadiskPersonopphold: 'boolean',
       alleKjennerRomningsVeiene: 'boolean',
       beregnetForOvernatting: 'boolean',
@@ -30,7 +30,7 @@ export default [
     modelName: 'BrannklasseSubModel',
     modelId: 'brannklasseSubModel',
     modelInputs: {
-      typeVirksomhet: 'string',
+      typeVirksomhet: 'codeList',
       antallEtasjer: 'integer',
       rkl: 'string',
       brtArealPrEtasje: 'integer',
