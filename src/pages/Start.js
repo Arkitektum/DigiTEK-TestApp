@@ -1,38 +1,38 @@
 import dummydata from '@/data/dummydata.json';
 import models from '@/data/models.js';
 import modelInputs from '@/data/modelInputs.js';
-import modelOutputFields from '@/data/modelOutputFields.js';
+import modelOutputVariables from '@/data/modelOutputVariables.js';
 
-import BrannklasseSubModel from '@/data/modelOutputs/BrannklasseSubModel.json';
-import BranntekniskProsjekteringModel from '@/data/modelOutputs/BranntekniskProsjekteringModel.json';
-import RisikoklasseSubModel from '@/data/modelOutputs/RisikoklasseSubModel.json';
+import brannklasseSubModel from '@/data/modelOutputs/BrannklasseSubModel.json';
+import branntekniskProsjekteringModel from '@/data/modelOutputs/BranntekniskProsjekteringModel.json';
+import risikoklasseSubModel from '@/data/modelOutputs/RisikoklasseSubModel.json';
 
 export default {
   data: () => ({
     menuVisible: true,
     modelOutputs: {
-      BrannklasseSubModel,
-      BranntekniskProsjekteringModel,
-      RisikoklasseSubModel
+      brannklasseSubModel,
+      branntekniskProsjekteringModel,
+      risikoklasseSubModel
     },
-    modelOutputFields,
+    modelOutputVariables,
     dummydata: dummydata,
-    selectedModelName: null,
+    selectedModelId: null,
     selectedModel: null,
     currentSort: 'DmnId',
     currentSortOrder: 'asc',
-    fields: [],
-    filteredFields: [],
+    outputVariables: [],
+    filteredOutputVariables: [],
     models: models,
     selectedInputValues: modelInputs,
-    visibleModelOutputFields: modelOutputFields,
+    visibleModelOutputVariables: modelOutputVariables,
     search: null
   }),
   watch: {
-    selectedModelName() {
+    selectedModelId() {
       this.selectedModel = this.getSelectedModel();
       this.dummydata = this.getSelectedDummyData();
-      this.updateFields();
+      this.updateOutputVariables();
       this.searchOnTable();
     }
   },
@@ -51,17 +51,17 @@ export default {
       }
     },
     getSelectedModel() {
-      if (this.selectedModelName && this.models && this.models.length) {
+      if (this.selectedModelId && this.models && this.models.length) {
         return this.models.find(model => {
-          return model.modelName === this.selectedModelName;
+          return model.modelId === this.selectedModelId;
         });
       } else {
         return null;
       }
     },
     getSelectedDummyData() {
-      if (this.selectedModelName && this.modelOutputs && this.modelOutputs[this.selectedModelName]) {
-        return this.modelOutputs[this.selectedModelName];
+      if (this.selectedModelId && this.modelOutputs && this.modelOutputs[this.selectedModelId]) {
+        return this.modelOutputs[this.selectedModelId];
       } else {
         return null;
       }
@@ -79,46 +79,47 @@ export default {
         return value;
       }
     },
-    updateFields() {
-      this.fields = this.getFields('input').concat(this.getFields('output'));
+    updateOutputVariables() {
+      this.outputVariables = this.getOutputVariables();
     },
-    getFieldValue(dmnTable, field) {
-      return this.dummydata.modelOutputs[dmnTable] && this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-        ? this.dummydata.modelOutputs[dmnTable][field.VariabelId]
-        : null;
+    getAugmentedVariableInfo(dmnTableKey, variableId) {
+      const dmnTableInfo = this.dummydata && this.dummydata.modelDataDictionary && this.dummydata.modelDataDictionary[dmnTableKey] ? this.dummydata.modelDataDictionary[dmnTableKey] : null;
+      const variablesForDmnTable = dmnTableInfo && dmnTableInfo.OutputVariablesInfo ? dmnTableInfo.OutputVariablesInfo : null;
+      if (dmnTableInfo && variablesForDmnTable) {
+        const variableInfo = variablesForDmnTable.find(variable => {
+          return variableId === variable.VariabelId;
+        });
+        return {
+          ...variableInfo,
+          DmnId: dmnTableInfo.DmnId,
+          DmnNavn: dmnTableInfo.DmnNavn,
+          TekBokstav: dmnTableInfo.TekBokstav,
+          TekKapittel: dmnTableInfo.TekKapitel,
+          TekLedd: dmnTableInfo.TekLedd,
+          TekTabell: dmnTableInfo.TekTabell,
+          TekWebLink: dmnTableInfo.TekWebLink
+        };
+      } else {
+        return null;
+      }
     },
-    getFields(fieldType) {
-      fieldType = fieldType === 'output' ? 'output' : 'input';
-      const dataFieldTypeProperty = fieldType && fieldType === 'output' ? 'OutputVariablesInfo' : 'InputVariablesInfo';
-      const dmnTables = this.dummydata.modelDataDictionary;
-      const fields = [];
-      Object.keys(dmnTables).forEach(dmnTableKey => {
-        const dmnTable = dmnTables[dmnTableKey];
-        dmnTable[dataFieldTypeProperty].forEach(field => {
-          fields.push({
-            ...field,
-            fieldType: fieldType,
-            DmnId: dmnTable.DmnId,
-            DmnNavn: dmnTable.DmnNavn,
-            TekBokstav: dmnTable.TekBokstav,
-            TekKapittel: dmnTable.TekKapittel,
-            TekLedd: dmnTable.TekLedd,
-            TekTabell: dmnTable.TekTabell,
-            TekWebLink: dmnTable.TekWebLink,
-            fieldValue: this.getFieldValue(dmnTableKey, field)
-          });
+    getOutputVariables() {
+      const outputVariables = [];
+      const variablesByDmnTable = this.dummydata.modelOutputs;
+      Object.keys(variablesByDmnTable).forEach(dmnTableKey => {
+        const dmnTableOutputVariables = variablesByDmnTable[dmnTableKey];
+        Object.keys(dmnTableOutputVariables).forEach(variableKey => {
+          const variableValue = dmnTableOutputVariables[variableKey];
+          const variableInfo = this.getAugmentedVariableInfo(dmnTableKey, variableKey);
+          if (variableInfo) {
+            outputVariables.push({
+              ...variableInfo,
+              variableValue
+            });
+          }
         });
       });
-      return fields;
-    },
-    modelOutputFieldIsVisible(modelOutputField) {
-      if (this.visibleModelOutputFields && this.visibleModelOutputFields.length) {
-        return this.visibleModelOutputFields.find(outputValue => {
-          return outputValue === modelOutputField;
-        });
-      } else {
-        return true;
-      }
+      return outputVariables;
     },
     toLower(text) {
       return text.toString().toLowerCase();
@@ -130,7 +131,7 @@ export default {
       return items;
     },
     searchOnTable() {
-      this.filteredFields = this.searchByName(this.fields, this.search);
+      this.filteredOutputVariables = this.searchByName(this.outputVariables, this.search);
     }
   }
 };

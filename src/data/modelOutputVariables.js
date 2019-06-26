@@ -1,14 +1,13 @@
 export default [
   'DmnId',
   'DmnNavn',
-  'TekBokstav',
   'TekKapittel',
   'TekLedd',
+  'TekBokstav',
   'TekTabell',
   'TekWebLink',
-  'fieldType',
   'VariabelId',
   'VariabelBeskrivelse',
   'VariabelNavn',
-  'fieldValue'
+  'variableValue'
 ];

@@ -1,6 +1,7 @@
 export default [
   {
     modelName: 'BranntekniskProsjekteringModel',
+    modelId: 'branntekniskProsjekteringModel',
     modelInputs: {
       typeVirksomhet: 'string',
       antallEtasjer:	'integer',
@@ -16,6 +17,7 @@ export default [
   },
   {
     modelName: 'RisikoklasseSubModel',
+    modelId: 'risikoklasseSubModel',
     modelInputs: {
       typeVirksomhet: 'string',
       bareSporadiskPersonopphold: 'boolean',
@@ -26,6 +28,7 @@ export default [
   },
   {
     modelName: 'BrannklasseSubModel',
+    modelId: 'brannklasseSubModel',
     modelInputs: {
       typeVirksomhet: 'string',
       antallEtasjer: 'integer',

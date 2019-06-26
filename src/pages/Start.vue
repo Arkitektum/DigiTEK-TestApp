@@ -19,8 +19,8 @@
         <md-list-item>
           <md-field>
             <label for="selectedModel">selectedModel</label>
-            <md-select v-model="selectedModelName" name="selectedModelName" id="selectedModelName">
-              <md-option :value="model.modelName" :key="model.modelName" v-for="model in models">{{ model.modelName }}</md-option>
+            <md-select v-model="selectedModelId" name="selectedModelId" id="selectedModelId">
+              <md-option :value="model.modelId" :key="model.modelId" v-for="model in models">{{ model.modelName }}</md-option>
             </md-select>
           </md-field>
         </md-list-item>
@@ -49,9 +49,9 @@
         <div class="md-layout md-gutter">
           <div class="md-layout-item">
             <md-field>
-              <label for="visibleModelOutputFields">Synlige kolonner</label>
-              <md-select v-model="visibleModelOutputFields" name="visibleModelOutputFields" id="visibleModelOutputFields" md-dense multiple>
-                <md-option :value="modelOutputField" v-for="modelOutputField in modelOutputFields" :key="modelOutputField">{{ modelOutputField }}</md-option>
+              <label for="visibleModelOutputVariables">Synlige kolonner</label>
+              <md-select v-model="visibleModelOutputVariables" name="visibleModelOutputVariables" id="visibleModelOutputVariables" md-dense multiple>
+                <md-option :value="modelOutputVariable" v-for="modelOutputVariable in modelOutputVariables" :key="modelOutputVariable">{{ modelOutputVariable }}</md-option>
               </md-select>
             </md-field>
             <md-field md-clearable>
@@ -59,8 +59,8 @@
             </md-field>
           </div>
         </div>
-        <div class="md-layout md-gutter" v-if="fields && fields.length">
-          <md-table v-model="filteredFields" :md-sort.sync="currentSort" :md-sort-order.sync="currentSortOrder" :md-sort-fn="customSort" md-card>
+        <div class="md-layout md-gutter" v-if="outputVariables && outputVariables.length">
+          <md-table v-model="filteredOutputVariables" :md-sort.sync="currentSort" :md-sort-order.sync="currentSortOrder" :md-sort-fn="customSort" md-card>
             <md-table-toolbar>
               <h1 class="md-title"></h1>
             </md-table-toolbar>
@@ -70,11 +70,11 @@
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }">
             <md-table-cell
-            :md-label="modelOutputField"
-            :md-sort-by="modelOutputField"
-            v-for="modelOutputField in visibleModelOutputFields"
-            :key="modelOutputField">
-            {{ item[modelOutputField] }}
+            v-for="modelOutputVariable in visibleModelOutputVariables"
+            :md-label="modelOutputVariable"
+            :md-sort-by="modelOutputVariable"
+            :key="modelOutputVariable">
+            {{ item[modelOutputVariable] }}
           </md-table-cell>
         </md-table-row>
       </md-table>
