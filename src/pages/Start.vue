@@ -4,7 +4,8 @@
       <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
         <md-icon>menu</md-icon>
       </md-button>
-      <span class="md-title">DigiTEK</span>
+      <span class="md-title" style="flex: 1">DigiTEK</span>
+      <md-button v-on:click="$emit('log-out')">log out</md-button>
     </md-app-toolbar>
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
       <md-toolbar class="md-transparent" md-elevation="0">

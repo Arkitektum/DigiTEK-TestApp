@@ -1,11 +1,27 @@
+import SignIn from '@/pages/SignIn.vue';
+
 export default {
   name: 'App',
   data: () => ({
-    menuVisible: false
+    menuVisible: false,
+    user: null,
+    showWelcomeMessage: false
   }),
+  components: {
+    SignIn
+  },
   methods: {
     toggleMenu() {
       this.menuVisible = !this.menuVisible;
+    },
+    handleLogOut() {
+      this.user = null;
+    },
+    handleLogIn(userName) {
+      this.user = {
+        userName
+      },
+      this.showWelcomeMessage = true;
     }
   }
 };

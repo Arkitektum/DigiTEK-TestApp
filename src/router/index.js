@@ -9,7 +9,8 @@ export default new VueRouter({
     {
       path: '/',
       name: 'Start',
-      component: StartPage
+      component: StartPage,
+      props: true
     }
   ]
 });
