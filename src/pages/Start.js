@@ -33,6 +33,7 @@ export default {
     }
   },
   mounted() {
+    this.fetchModels();
     this.fetchBusinessTypes();
   },
   methods: {
@@ -41,13 +42,20 @@ export default {
     },
     translateInputType(modelInputType) {
       switch (modelInputType) {
-        case 'string':
+        case 'String':
           return 'text';
-        case 'integer':
+        case 'Int32':
+          return 'number';
+        case 'Int64':
           return 'number';
         default:
           return 'text';
       }
+    },
+    fetchModels() {
+      axios.get('https://digitek-api-dev.azurewebsites.net/api/TestMotor/GetAvailablesBrannProsjekteringsModels').then(response => {
+        this.models = response && response.data ? response.data : null;
+      })
     },
     fetchBusinessTypes() {
       axios.get('https://register.geonorge.no/api/tek17/risikoklasseettertypevirksomhet.json')
@@ -68,7 +76,7 @@ export default {
     getSelectedModel() {
       if (this.selectedModelId && this.models && this.models.length) {
         return this.models.find(model => {
-          return model.modelId === this.selectedModelId;
+          return model.bpmnId === this.selectedModelId;
         });
       } else {
         return null;
@@ -82,11 +90,11 @@ export default {
         email: this.user.email
       };
       const modelInputs = {};
-      Object.keys(this.selectedModel.modelInputs).forEach(variableKey => {
+      Object.keys(this.selectedModel.bpmnInputs).forEach(variableKey => {
         modelInputs[variableKey] = this.selectedInputValues[variableKey];
       });
-      const selectedModelName = this.selectedModel.modelName;
-      const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/DigiTek17K11/${selectedModelName}`;
+      const selectedModelId = this.selectedModel.bpmnId;
+      const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/DigiTek17K11/${selectedModelId}`;
       axios({
         method: 'post',
         url: apiUrl,

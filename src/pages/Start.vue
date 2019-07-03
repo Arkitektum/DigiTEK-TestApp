@@ -18,11 +18,11 @@
         </div>
       </md-toolbar>
       <md-list>
-        <md-list-item>
+        <md-list-item v-if="models && models.length">
           <md-field>
             <label for="selectedModel">selectedModel</label>
             <md-select v-model="selectedModelId" name="selectedModelId" id="selectedModelId">
-              <md-option :value="model.modelId" :key="model.modelId" v-for="model in models">{{ model.modelName }}</md-option>
+              <md-option :value="model.bpmnId" :key="model.bpmnId" v-for="model in models">{{ model.bpmnName }}</md-option>
             </md-select>
           </md-field>
         </md-list-item>
@@ -30,23 +30,23 @@
 
       <md-divider></md-divider>
 
-      <md-list v-if="selectedModel && selectedModel.modelInputs">
-        <md-list-item v-for="(modelInputType, modelInputKey) in selectedModel.modelInputs" :key="modelInputKey">
-          <div v-if="modelInputType === 'boolean'">
-            <p class="md-caption">{{ modelInputKey }}</p>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="true" class="md-primary">Ja</md-radio>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="false" class="md-primary">Nei</md-radio>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="null" class="md-primary">Ikke valgt</md-radio>
+      <md-list v-if="selectedModel && selectedModel.bpmnInputs">
+        <md-list-item v-for="(bpmnInputType, bpmnInputKey) in selectedModel.bpmnInputs" :key="bpmnInputKey">
+          <div v-if="bpmnInputType === 'Boolean'">
+            <p class="md-caption">{{ bpmnInputKey }}</p>
+            <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="true" class="md-primary">Ja</md-radio>
+            <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="false" class="md-primary">Nei</md-radio>
+            <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="null" class="md-primary">Ikke valgt</md-radio>
           </div>
-          <md-field v-else-if="modelInputType === 'codeList'">
-            <label for="modelInputKey">{{ modelInputKey }}</label>
-            <md-select v-model="selectedInputValues[modelInputKey]" :id="modelInputKey" :name="modelInputKey">
-              <md-option :value="model.value" :key="model.key" v-for="model in codeLists[modelInputKey]">{{ model.key }}</md-option>
+          <md-field v-else-if="bpmnInputType === 'CodeList'">
+            <label for="bpmnInputKey">{{ bpmnInputKey }}</label>
+            <md-select v-model="selectedInputValues[bpmnInputKey]" :id="bpmnInputKey" :name="bpmnInputKey">
+              <md-option :value="model.value" :key="model.key" v-for="model in codeLists[bpmnInputKey]">{{ model.key }}</md-option>
             </md-select>
           </md-field>
           <md-field v-else>
-            <label for="modelInputKey">{{ modelInputKey }}</label>
-            <md-input v-model="selectedInputValues[modelInputKey]" :type="translateInputType(modelInputType)" :id="modelInputKey" :name="modelInputKey" />
+            <label for="bpmnInputKey">{{ bpmnInputKey }}</label>
+            <md-input v-model="selectedInputValues[bpmnInputKey]" :type="translateInputType(bpmnInputType)" :id="bpmnInputKey" :name="bpmnInputKey" />
           </md-field>
         </md-list-item>
         <md-button class="md-raised md-primary" v-on:click="handleSubmitInputValuesClick()">Kjør test</md-button>
