@@ -9,8 +9,11 @@ import brannklasseSubModel from '@/data/modelOutputs/BrannklasseSubModel.json';
 import branntekniskProsjekteringModel from '@/data/modelOutputs/BranntekniskProsjekteringModel.json';
 import risikoklasseSubModel from '@/data/modelOutputs/RisikoklasseSubModel.json';
 
+import dibkLogo from '@/assets/images/dibk_logo_mob.svg';
+
 export default {
   data: () => ({
+    dibkLogo,
     menuVisible: true,
     modelOutputs: {
       brannklasseSubModel,

@@ -3,7 +3,7 @@
   <div v-if="user" class="page-container">
     <router-view :user="user" v-on:log-out="handleLogOut()" />
   </div>
-  <div v-else>
+  <div v-else class="page-container">
     <sign-in v-on:log-in="handleLogIn"/>
   </div>
   <md-snackbar :md-active.sync="showWelcomeMessage" :md-duration="4000">Welcome {{ user && user.userName ? user.userName : '' }}!</md-snackbar>

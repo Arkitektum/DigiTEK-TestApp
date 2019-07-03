@@ -4,7 +4,8 @@
       <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
         <md-icon>menu</md-icon>
       </md-button>
-      <span class="md-title" style="flex: 1">DigiTEK</span>
+      <img :src="dibkLogo" />
+      <span class="md-title" style="flex: 1"></span>
       <md-button v-on:click="$emit('log-out')">log out</md-button>
     </md-app-toolbar>
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
@@ -33,9 +34,9 @@
         <md-list-item v-for="(modelInputType, modelInputKey) in selectedModel.modelInputs" :key="modelInputKey">
           <div v-if="modelInputType === 'boolean'">
             <p class="md-caption">{{ modelInputKey }}</p>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="true">Ja</md-radio>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="false">Nei</md-radio>
-            <md-radio v-model="selectedInputValues[modelInputKey]" :value="null">Ikke valgt</md-radio>
+            <md-radio v-model="selectedInputValues[modelInputKey]" :value="true" class="md-primary">Ja</md-radio>
+            <md-radio v-model="selectedInputValues[modelInputKey]" :value="false" class="md-primary">Nei</md-radio>
+            <md-radio v-model="selectedInputValues[modelInputKey]" :value="null" class="md-primary">Ikke valgt</md-radio>
           </div>
           <md-field v-else-if="modelInputType === 'codeList'">
             <label for="modelInputKey">{{ modelInputKey }}</label>
