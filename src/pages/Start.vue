@@ -49,6 +49,7 @@
             <md-input v-model="selectedInputValues[modelInputKey]" :type="translateInputType(modelInputType)" :id="modelInputKey" :name="modelInputKey" />
           </md-field>
         </md-list-item>
+        <md-button class="md-raised md-primary" v-on:click="handleSubmitInputValuesClick()">Kjør test</md-button>
       </md-list>
 
     </md-app-drawer>

@@ -1,27 +1,18 @@
 import axios from 'axios';
 
-import dummydata from '@/data/dummydata.json';
 import models from '@/data/models.js';
 import modelInputs from '@/data/modelInputs.js';
 import modelOutputVariables from '@/data/modelOutputVariables.js';
 
-import brannklasseSubModel from '@/data/modelOutputs/BrannklasseSubModel.json';
-import branntekniskProsjekteringModel from '@/data/modelOutputs/BranntekniskProsjekteringModel.json';
-import risikoklasseSubModel from '@/data/modelOutputs/RisikoklasseSubModel.json';
-
 import dibkLogo from '@/assets/images/dibk_logo_mob.svg';
 
 export default {
+  props: ['user'],
   data: () => ({
     dibkLogo,
     menuVisible: true,
-    modelOutputs: {
-      brannklasseSubModel,
-      branntekniskProsjekteringModel,
-      risikoklasseSubModel
-    },
     modelOutputVariables,
-    dummydata: dummydata,
+    testResults: null,
     models: models,
     codeLists: {
       typeVirksomhet: null
@@ -39,9 +30,6 @@ export default {
   watch: {
     selectedModelId() {
       this.selectedModel = this.getSelectedModel();
-      this.dummydata = this.getSelectedDummyData();
-      this.updateOutputVariables();
-      this.searchOnTable();
     }
   },
   mounted() {
@@ -86,12 +74,33 @@ export default {
         return null;
       }
     },
-    getSelectedDummyData() {
-      if (this.selectedModelId && this.modelOutputs && this.modelOutputs[this.selectedModelId]) {
-        return this.modelOutputs[this.selectedModelId];
-      } else {
-        return null;
-      }
+    handleSubmitInputValuesClick() {
+      const userInfo = { // TODO get user info
+        navn: "Testmotor",
+        organisasjonsnummer: null,
+        organisasjonsNavn: null,
+        email: this.user.email
+      };
+      const modelInputs = {};
+      Object.keys(this.selectedModel.modelInputs).forEach(variableKey => {
+        modelInputs[variableKey] = this.selectedInputValues[variableKey];
+      });
+      const selectedModelName = this.selectedModel.modelName;
+      const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/DigiTek17K11/${selectedModelName}`;
+      axios({
+        method: 'post',
+        url: apiUrl,
+        data: {
+          userInfo,
+          modelInputs
+        }
+      }).then(response => {
+        this.testResults = response && response.data ? response.data : null;
+        this.updateOutputVariables();
+        this.searchOnTable();
+      }).catch(error => {
+        console.log(error);
+      });
     },
     customSort(value) {
       if (value && value.length && value[0] && value[0][this.currentSort]) {
@@ -109,12 +118,13 @@ export default {
     updateOutputVariables() {
       this.outputVariables = this.getOutputVariables();
     },
-    getAugmentedVariableInfo(dmnTableKey, variableId) {
-      const dmnTableInfo = this.dummydata && this.dummydata.modelDataDictionary && this.dummydata.modelDataDictionary[dmnTableKey] ? this.dummydata.modelDataDictionary[dmnTableKey] : null;
+    getAugmentedVariableInfo(dmnTableKey, variableKey) {
+      if (!dmnTableKey || !variableKey) return null;
+      const dmnTableInfo = this.testResults && this.testResults.modelDataDictionary && this.testResults.modelDataDictionary[dmnTableKey] ? this.testResults.modelDataDictionary[dmnTableKey] : null;
       const variablesForDmnTable = dmnTableInfo && dmnTableInfo.OutputVariablesInfo ? dmnTableInfo.OutputVariablesInfo : null;
       if (dmnTableInfo && variablesForDmnTable) {
         const variableInfo = variablesForDmnTable.find(variable => {
-          return variableId === variable.VariabelId;
+          return variable && variable.VariabelId && variableKey === variable.VariabelId;
         });
         return {
           ...variableInfo,
@@ -132,20 +142,22 @@ export default {
     },
     getOutputVariables() {
       const outputVariables = [];
-      const variablesByDmnTable = this.dummydata.modelOutputs;
-      Object.keys(variablesByDmnTable).forEach(dmnTableKey => {
-        const dmnTableOutputVariables = variablesByDmnTable[dmnTableKey];
-        Object.keys(dmnTableOutputVariables).forEach(variableKey => {
-          const variableValue = dmnTableOutputVariables[variableKey];
-          const variableInfo = this.getAugmentedVariableInfo(dmnTableKey, variableKey);
-          if (variableInfo) {
-            outputVariables.push({
-              ...variableInfo,
-              variableValue
-            });
-          }
+      if (this.testResults){
+        const variablesByDmnTable = this.testResults.modelOutputs;
+        Object.keys(variablesByDmnTable).forEach(dmnTableKey => {
+          const dmnTableOutputVariables = variablesByDmnTable[dmnTableKey];
+          Object.keys(dmnTableOutputVariables).forEach(variableKey => {
+            const variableValue = dmnTableOutputVariables[variableKey];
+            const variableInfo = this.getAugmentedVariableInfo(dmnTableKey, variableKey);
+            if (variableInfo) {
+              outputVariables.push({
+                ...variableInfo,
+                variableValue
+              });
+            }
+          });
         });
-      });
+      }
       return outputVariables;
     },
     toLower(text) {
