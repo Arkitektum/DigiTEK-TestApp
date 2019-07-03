@@ -22,6 +22,9 @@ export default {
         email
       },
       this.showWelcomeMessage = true;
+      setTimeout(() => {
+        this.showWelcomeMessage = false;
+      }, 3000)
     }
   }
 };
