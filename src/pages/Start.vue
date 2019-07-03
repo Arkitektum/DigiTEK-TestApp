@@ -6,7 +6,7 @@
       </md-button>
       <img :src="dibkLogo" />
       <span class="md-title" style="flex: 1"></span>
-      <md-button v-on:click="$emit('log-out')">log out</md-button>
+      <md-button v-on:click="$emit('log-out')">Logg ut</md-button>
     </md-app-toolbar>
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
       <md-toolbar class="md-transparent" md-elevation="0">
@@ -75,7 +75,7 @@
             </md-table-toolbar>
             <md-table-empty-state
             md-label="No fields found"
-            :md-description="`No fields found for this query. Try a different search term.`">
+            :md-description="`Fant ingen felter. Prøv et annet søk.`">
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }">
             <md-table-cell
