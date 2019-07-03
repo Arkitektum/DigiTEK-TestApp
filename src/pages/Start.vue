@@ -64,7 +64,7 @@
               </md-select>
             </md-field>
             <md-field md-clearable>
-              <md-input placeholder="Search by variable name..." v-model="search" @input="searchOnTable" />
+              <md-input placeholder="Søk i variabler" v-model="search" @input="searchOnTable" />
             </md-field>
           </div>
         </div>

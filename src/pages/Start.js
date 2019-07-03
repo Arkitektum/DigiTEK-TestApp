@@ -173,7 +173,11 @@ export default {
     },
     searchByName(items, term) {
       if (term) {
-        return items.filter(item => this.toLower(item.VariabelNavn).includes(this.toLower(term)));
+        return items.filter(item => {
+          return this.modelOutputVariables.find(outputVariableKey => {
+            return (item[outputVariableKey] && this.toLower(item[outputVariableKey]).includes(this.toLower(term)));
+          });
+        });
       }
       return items;
     },
