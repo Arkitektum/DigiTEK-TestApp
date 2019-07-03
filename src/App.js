@@ -17,9 +17,9 @@ export default {
     handleLogOut() {
       this.user = null;
     },
-    handleLogIn(userName) {
+    handleLogIn(email) {
       this.user = {
-        userName
+        email
       },
       this.showWelcomeMessage = true;
     }

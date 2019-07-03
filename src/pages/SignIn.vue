@@ -7,11 +7,11 @@
             <div class="md-title">Sign in</div>
           </md-card-header>
           <md-card-content>
-            <md-field md-clearable :class="getValidationClass('userName')">
-              <label for="user-name">User Name</label>
-              <md-input name="user-name" id="user-name" autocomplete="user-name" v-model="form.userName" :disabled="sending" />
-              <span class="md-error" v-if="!$v.form.userName.required">The user name is required</span>
-              <span class="md-error" v-else-if="!$v.form.userName.minlength">Invalid user name</span>
+            <md-field md-clearable :class="getValidationClass('email')">
+              <label for="email">E-mail</label>
+              <md-input name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
+              <span class="md-error" v-if="!$v.form.email.required">The email is email</span>
+              <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid email</span>
             </md-field>
             <md-field :class="getValidationClass('password')">
               <label for="password">Password</label>

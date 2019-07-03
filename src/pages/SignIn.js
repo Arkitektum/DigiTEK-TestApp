@@ -1,15 +1,24 @@
 import { validationMixin } from 'vuelidate'
 import {
   required,
+  email,
   minLength
 } from 'vuelidate/lib/validators'
+
+const mustBeAllowedEmail = (email) => {
+  const allowedEmails = [
+    "testmotor@dibk.no",
+    "testmotor@arkitektum.no"
+  ]
+  return allowedEmails.includes(email);
+};
 
 export default {
   name: 'SignIn',
   mixins: [validationMixin],
   data: () => ({
     form: {
-      userName: null,
+      email: null,
       password: null,
     },
     userSaved: false,
@@ -18,16 +27,19 @@ export default {
   }),
   validations: {
     form: {
-      userName: {
+      email: {
         required,
-        minLength: minLength(3)
+        email,
+        mustBeAllowedEmail
       },
       password: {
         required,
+        minLength: minLength(8)
       }
     }
   },
   methods: {
+
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
       if (field) {
@@ -38,7 +50,7 @@ export default {
     },
     clearForm () {
       this.$v.$reset()
-      this.form.userName = null
+      this.form.email = null
       this.form.password = null
     },
     saveUser () {
@@ -46,10 +58,10 @@ export default {
 
       // Instead of this timeout, here you can call your API
       window.setTimeout(() => {
-        this.lastUser = `${this.form.userName}`;
+        this.lastUser = `${this.form.email}`;
         this.userSaved = true;
         this.sending = false;
-        this.$emit('log-in', this.form.userName);
+        this.$emit('log-in', this.form.email);
         this.clearForm();
       }, 1500)
     },
