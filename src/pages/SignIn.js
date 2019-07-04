@@ -7,8 +7,13 @@ import {
 
 const mustBeAllowedEmail = (email) => {
   const allowedEmails = [
-    "testmotor@dibk.no",
-    "testmotor@arkitektum.no"
+    'vs@dibk.no',
+    'odf@dibk.no',
+    'roa@dibk.no',
+    'baw@dibk.no',
+    'matias@arkitektum.no',
+    'kim@arkitektum.no',
+    'benjamin@arkitektum.no'
   ]
   return allowedEmails.includes(email);
 };
