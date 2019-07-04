@@ -1,5 +1,11 @@
 .md-layout .md-card.md-table {
-  overflow-x: scroll;
+  width: calc(100% - 32px);
+}
+
+.md-layout .md-card.md-table .md-table-content{
+  overflow: auto;
+  width: 100%;
+  max-height: 600px;
 }
 
 .md-toolbar.md-theme-default.md-primary {
@@ -7,6 +13,5 @@
 }
 
 .md-button-content i.material-icons+span{
-  vertical-align: text-bottom;
-  line-height: 24px;
+  vertical-align: super;
 }
