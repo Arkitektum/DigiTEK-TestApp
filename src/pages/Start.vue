@@ -6,7 +6,10 @@
       </md-button>
       <img :src="dibkLogo" />
       <span class="md-title" style="flex: 1"></span>
-      <md-button v-on:click="$emit('log-out')">Logg ut</md-button>
+      <md-button v-on:click="$emit('log-out')">
+        <i class="material-icons">exit_to_app</i>
+        <span>Logg ut</span>
+      </md-button>
     </md-app-toolbar>
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
       <md-toolbar class="md-transparent" md-elevation="0">
