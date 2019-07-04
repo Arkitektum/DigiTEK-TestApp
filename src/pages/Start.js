@@ -142,11 +142,30 @@ export default {
           TekKapittel: dmnTableInfo.TekKapitel,
           TekLedd: dmnTableInfo.TekLedd,
           TekTabell: dmnTableInfo.TekTabell,
-          TekWebLink: dmnTableInfo.TekWebLink
-        };
+          TekWebLink: dmnTableInfo.TekWebLink,
+          Type: 'Beregnet verdi'
+        } : null;
       } else {
         return null;
       }
+    },
+    getAugmentedInputVariableInfo(variableKey) {
+      if (!variableKey) return null;
+      return {
+        Ifc: null,
+        IfcUrl: null,
+        VariabelBeskrivelse: null,
+        VariabelId: variableKey,
+        VariabelNavn: null,
+        DmnId: null,
+        DmnNavn: null,
+        TekBokstav: null,
+        TekKapittel: null,
+        TekLedd: null,
+        TekTabell: null,
+        TekWebLink: null,
+        Type: 'Inntastet verdi'
+      };
     },
     getOutputVariables() {
       const outputVariables = [];
