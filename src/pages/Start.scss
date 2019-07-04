@@ -5,3 +5,8 @@
 .md-toolbar.md-theme-default.md-primary {
   background-color: #072938;
 }
+
+.md-button-content i.material-icons+span{
+  vertical-align: text-bottom;
+  line-height: 24px;
+}

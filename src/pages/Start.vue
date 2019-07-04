@@ -71,7 +71,11 @@
         <div class="md-layout md-gutter" v-if="outputVariables && outputVariables.length">
           <md-table v-model="filteredOutputVariables" :md-sort.sync="currentSort" :md-sort-order.sync="currentSortOrder" :md-sort-fn="customSort" md-card>
             <md-table-toolbar>
-              <h1 class="md-title"></h1>
+              <h1 class="md-title">Testresultat</h1>
+              <md-button class="md-primary" v-on:click="handleDownloadAsExcelFileClick()">
+                <i class="material-icons">save_alt</i>
+                <span>Last ned</span>
+              </md-button>
             </md-table-toolbar>
             <md-table-empty-state
             md-label="No fields found"
