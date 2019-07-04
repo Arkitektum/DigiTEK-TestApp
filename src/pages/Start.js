@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 import models from '@/data/models.js';
 import modelInputs from '@/data/modelInputs.js';
@@ -93,7 +94,7 @@ export default {
       Object.keys(this.selectedModel.bpmnInputs).forEach(variableKey => {
         modelInputs[variableKey] = this.selectedInputValues[variableKey];
       });
-      const selectedModelId = this.selectedModel.bpmnId;
+      const selectedModelId = this.selectedModel && this.selectedModel.bpmnId ? this.selectedModel.bpmnId : null;
       const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/DigiTek17K11/${selectedModelId}`;
       axios({
         method: 'post',
@@ -109,6 +110,34 @@ export default {
       }).catch(error => {
         console.log(error);
       });
+    },
+    handleDownloadAsExcelFileClick() {
+      const selectedModelId = this.selectedModel && this.selectedModel.bpmnId ? this.selectedModel.bpmnId : null;
+      const executionId = this.testResults && this.testResults.ExecutionInfo && this.testResults.ExecutionInfo.ExecutionId ? this.testResults.ExecutionInfo.ExecutionId : null;
+      const userEmail = this.user && this.user.email ? this.user.email : null;
+
+      if (selectedModelId && executionId && userEmail){
+        const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/TestMotor/ConverJsonArrayToExcel`;
+        const data = this.outputVariables.concat(this.getInputVariables());
+        axios({
+          method: 'post',
+          url: apiUrl,
+          processData: false,
+          responseType: 'blob',
+          params: {
+            bpmnModelName: selectedModelId,
+            guid: executionId,
+            userName: userEmail
+          },
+          data: data
+        }).then(response => {
+          const reader = new FileReader();
+          const blob = response && response.data ? new File([response.data], {type: response.headers['content-type']}) : null;
+          saveAs(blob, `${selectedModelId}_test.xlsx`);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
     },
     customSort(value) {
       if (value && value.length && value[0] && value[0][this.currentSort]) {
@@ -126,7 +155,7 @@ export default {
     updateOutputVariables() {
       this.outputVariables = this.getOutputVariables();
     },
-    getAugmentedVariableInfo(dmnTableKey, variableKey) {
+    getAugmentedOutputVariableInfo(dmnTableKey, variableKey) {
       if (!dmnTableKey || !variableKey) return null;
       const dmnTableInfo = this.testResults && this.testResults.modelDataDictionary && this.testResults.modelDataDictionary[dmnTableKey] ? this.testResults.modelDataDictionary[dmnTableKey] : null;
       const variablesForDmnTable = dmnTableInfo && dmnTableInfo.OutputVariablesInfo ? dmnTableInfo.OutputVariablesInfo : null;
@@ -134,7 +163,7 @@ export default {
         const variableInfo = variablesForDmnTable.find(variable => {
           return variable && variable.VariabelId && variableKey === variable.VariabelId;
         });
-        return {
+        return variableInfo ? {
           ...variableInfo,
           DmnId: dmnTableInfo.DmnId,
           DmnNavn: dmnTableInfo.DmnNavn,
@@ -175,7 +204,7 @@ export default {
           const dmnTableOutputVariables = variablesByDmnTable[dmnTableKey];
           Object.keys(dmnTableOutputVariables).forEach(variableKey => {
             const variableValue = dmnTableOutputVariables[variableKey];
-            const variableInfo = this.getAugmentedVariableInfo(dmnTableKey, variableKey);
+            const variableInfo = this.getAugmentedOutputVariableInfo(dmnTableKey, variableKey);
             if (variableInfo) {
               outputVariables.push({
                 ...variableInfo,
@@ -186,6 +215,23 @@ export default {
         });
       }
       return outputVariables;
+    },
+    getInputVariables() {
+      const inputVariables = [];
+      if (this.testResults){
+        const dmnTableInputVariables = this.testResults.modelInputs;
+        Object.keys(dmnTableInputVariables).forEach(variableKey => {
+          const variableValue = dmnTableInputVariables[variableKey];
+          const variableInfo = this.getAugmentedInputVariableInfo(variableKey);
+          if (variableInfo) {
+            inputVariables.push({
+              ...variableInfo,
+              variableValue
+            });
+          }
+        });
+      }
+      return inputVariables;
     },
     toLower(text) {
       return text.toString().toLowerCase();
