@@ -1,4 +1,8 @@
 export default [
+  'VariabelId',
+  'variableValue',
+  'VariabelNavn',
+  'VariabelBeskrivelse',
   'DmnId',
   'DmnNavn',
   'TekKapittel',
@@ -6,10 +10,6 @@ export default [
   'TekBokstav',
   'TekTabell',
   'TekWebLink',
-  'VariabelId',
   'Ifc',
-  'IfcUrl',
-  'VariabelBeskrivelse',
-  'VariabelNavn',
-  'variableValue'
+  'IfcUrl'
 ];
