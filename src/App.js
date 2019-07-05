@@ -20,11 +20,11 @@ export default {
     handleLogIn(email) {
       this.user = {
         email
-      },
+      };
       this.showWelcomeMessage = true;
       setTimeout(() => {
         this.showWelcomeMessage = false;
-      }, 3000)
+      }, 3000);
     }
   }
 };

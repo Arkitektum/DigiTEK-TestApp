@@ -59,7 +59,7 @@ export default {
     fetchModels() {
       axios.get('https://digitek-api-dev.azurewebsites.net/api/TestMotor/GetAvailablesBrannProsjekteringsModels').then(response => {
         this.models = response && response.data ? response.data : null;
-      })
+      });
     },
     fetchBusinessTypes() {
       axios.get('https://register.geonorge.no/api/tek17/risikoklasseettertypevirksomhet.json')
@@ -89,7 +89,7 @@ export default {
     },
     handleSubmitInputValuesClick() {
       const userInfo = { // TODO get user info
-        navn: "Testmotor",
+        navn: 'Testmotor',
         organisasjonsnummer: null,
         organisasjonsNavn: null,
         email: this.user.email
@@ -120,7 +120,7 @@ export default {
       const executionId = this.testResults && this.testResults.ExecutionInfo && this.testResults.ExecutionInfo.ExecutionId ? this.testResults.ExecutionInfo.ExecutionId : null;
       const userEmail = this.user && this.user.email ? this.user.email : null;
 
-      if (selectedModelId && executionId && userEmail){
+      if (selectedModelId && executionId && userEmail) {
         const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/TestMotor/ConverJsonArrayToExcel`;
         const data = this.outputVariables.concat(this.getInputVariables());
         axios({
@@ -135,7 +135,6 @@ export default {
           },
           data: data
         }).then(response => {
-          const reader = new FileReader();
           const blob = response && response.data ? new File([response.data], {type: response.headers['content-type']}) : null;
           saveAs(blob, `${selectedModelId}_test.xlsx`);
         }).catch(error => {
@@ -202,7 +201,7 @@ export default {
     },
     getOutputVariables() {
       const outputVariables = [];
-      if (this.testResults){
+      if (this.testResults) {
         const variablesByDmnTable = this.testResults.modelOutputs;
         Object.keys(variablesByDmnTable).forEach(dmnTableKey => {
           const dmnTableOutputVariables = variablesByDmnTable[dmnTableKey];
@@ -222,7 +221,7 @@ export default {
     },
     getInputVariables() {
       const inputVariables = [];
-      if (this.testResults){
+      if (this.testResults) {
         const dmnTableInputVariables = this.testResults.modelInputs;
         Object.keys(dmnTableInputVariables).forEach(variableKey => {
           const variableValue = dmnTableInputVariables[variableKey];

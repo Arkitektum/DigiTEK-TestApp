@@ -1,9 +1,9 @@
-import { validationMixin } from 'vuelidate'
+import { validationMixin } from 'vuelidate';
 import {
   required,
   email,
   minLength
-} from 'vuelidate/lib/validators'
+} from 'vuelidate/lib/validators';
 
 const mustBeAllowedEmail = (email) => {
   const allowedEmails = [
@@ -14,7 +14,7 @@ const mustBeAllowedEmail = (email) => {
     'matias@arkitektum.no',
     'kim@arkitektum.no',
     'benjamin@arkitektum.no'
-  ]
+  ];
   return allowedEmails.includes(email);
 };
 
@@ -24,7 +24,7 @@ export default {
   data: () => ({
     form: {
       email: null,
-      password: null,
+      password: null
     },
     userSaved: false,
     sending: false,
@@ -45,21 +45,21 @@ export default {
   },
   methods: {
 
-    getValidationClass (fieldName) {
-      const field = this.$v.form[fieldName]
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty
-        }
+        };
       }
     },
-    clearForm () {
-      this.$v.$reset()
-      this.form.email = null
-      this.form.password = null
+    clearForm() {
+      this.$v.$reset();
+      this.form.email = null;
+      this.form.password = null;
     },
-    saveUser () {
-      this.sending = true
+    saveUser() {
+      this.sending = true;
 
       // Instead of this timeout, here you can call your API
       window.setTimeout(() => {
@@ -68,14 +68,14 @@ export default {
         this.sending = false;
         this.$emit('log-in', this.form.email);
         this.clearForm();
-      }, 1500)
+      }, 1500);
     },
-    validateUser () {
-      this.$v.$touch()
+    validateUser() {
+      this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.saveUser()
+        this.saveUser();
       }
     }
   }
-}
+};
