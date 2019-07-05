@@ -143,17 +143,15 @@ export default {
       }
     },
     customSort(value) {
-      if (value && value.length && value[0] && value[0][this.currentSort]) {
-        return value.sort((a, b) => {
-          const sortBy = this.currentSort;
-          if (this.currentSortOrder === 'desc') {
-            return a[sortBy].localeCompare(b[sortBy]);
-          }
-          return b[sortBy].localeCompare(a[sortBy]);
-        });
-      } else {
-        return value;
-      }
+      return value.sort((a, b) => {
+        const sortBy = this.currentSort;
+        const firstValue = a && a[sortBy] ? a[sortBy] : '';
+        const secondValue = b && b[sortBy] ? b[sortBy] : '';
+        if (this.currentSortOrder === 'desc') {
+          return firstValue.localeCompare(secondValue);
+        }
+        return secondValue.localeCompare(firstValue);
+      });
     },
     updateOutputVariables() {
       this.outputVariables = this.getOutputVariables();
