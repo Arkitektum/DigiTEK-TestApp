@@ -11,6 +11,7 @@ const mustBeAllowedEmail = (email) => {
     'odf@dibk.no',
     'roa@dibk.no',
     'baw@dibk.no',
+    'tsa@dibk.no',
     'matias@arkitektum.no',
     'kim@arkitektum.no',
     'benjamin@arkitektum.no'
