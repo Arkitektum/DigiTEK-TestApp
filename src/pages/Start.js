@@ -53,6 +53,9 @@ export default {
           return 'text';
       }
     },
+    selectFromCodeList(value, bpmnInputKey) {
+      this.selectedInputValues[bpmnInputKey] = value;
+    },
     fetchModels() {
       axios.get('https://digitek-api-dev.azurewebsites.net/api/TestMotor/GetAvailablesBrannProsjekteringsModels').then(response => {
         this.models = response && response.data ? response.data : null;
@@ -61,14 +64,15 @@ export default {
     fetchBusinessTypes() {
       axios.get('https://register.geonorge.no/api/tek17/risikoklasseettertypevirksomhet.json')
         .then(response => {
-          this.codeLists.typeVirksomhet = response && response.data && response.data.containeditems
-            ? response.data.containeditems.map(item => {
+          if (response && response.data && response.data.containeditems) {
+            const typeVirksomhetList = response.data.containeditems.map(item => {
               return {
                 key: item.label,
                 value: item.label
               };
-            })
-            : null;
+            });
+            this.codeLists.typeVirksomhet = typeVirksomhetList.sort((a, b) => (a.key > b.key) ? 1 : -1);
+          }
         })
         .catch(error => {
           console.log(error);

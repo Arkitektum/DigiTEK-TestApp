@@ -42,13 +42,19 @@
             <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="null" class="md-primary">Ikke valgt</md-radio>
           </div>
           <md-field v-else-if="bpmnInputType === 'CodeList'">
-            <label for="bpmnInputKey">{{ bpmnInputKey }}</label>
-            <md-select v-model="selectedInputValues[bpmnInputKey]" :id="bpmnInputKey" :name="bpmnInputKey">
-              <md-option :value="model.value" :key="model.key" v-for="model in codeLists[bpmnInputKey]">{{ model.key }}</md-option>
-            </md-select>
+            <md-autocomplete @md-selected="selectFromCodeList($event.value, bpmnInputKey)" :value="selectedInputValues[bpmnInputKey]" :id="bpmnInputKey" :name="bpmnInputKey" :md-options="codeLists[bpmnInputKey]" :md-fuzzy-search="false">
+              <label :for="bpmnInputKey">{{ bpmnInputKey }}</label>
+              <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                <md-highlight-text :md-term="term">{{ item.key }}</md-highlight-text>
+              </template>
+              <template slot="md-autocomplete-empty" slot-scope="{ term }">
+                Ingen treff for "{{ term }}" i {{ bpmnInputKey }}. <a @click="noop()">Create a new</a> one!
+              </template>
+
+            </md-autocomplete>
           </md-field>
           <md-field v-else>
-            <label for="bpmnInputKey">{{ bpmnInputKey }}</label>
+            <label :for="bpmnInputKey">{{ bpmnInputKey }}</label>
             <md-input v-model="selectedInputValues[bpmnInputKey]" :type="translateInputType(bpmnInputType)" :id="bpmnInputKey" :name="bpmnInputKey" />
           </md-field>
         </md-list-item>
