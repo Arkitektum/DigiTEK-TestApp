@@ -57,13 +57,12 @@ export default {
     selectFromCodeList(value, bpmnInputKey) {
       this.selectedInputValues[bpmnInputKey] = value;
       this.autoCompleteInputvalues[bpmnInputKey] = value;
-
     },
     closeAutocomplete(prevValue, bpmnInputKey) {
-      setTimeout(function(){
+      setTimeout(function() {
         const element = document.getElementById(bpmnInputKey).getElementsByTagName('input')[0];
         // Check if value is in list for supported values
-        if (!this.codeLists[bpmnInputKey].filter(codeListItem => codeListItem.value === element.value).length){ // If value is not in the list
+        if (!this.codeLists[bpmnInputKey].filter(codeListItem => codeListItem.value === element.value).length) { // If value is not in the list
           // Clear value if value is removed else revert to previous saved value
           this.autoCompleteInputvalues[bpmnInputKey] = !element.value ? element.value : prevValue;
         }
@@ -134,7 +133,7 @@ export default {
       const userEmail = this.user && this.user.email ? this.user.email : null;
 
       if (selectedModelId && executionId && userEmail) {
-        const apiUrl = `https://digitek-api-dev.azurewebsites.net/api/TestMotor/ConverJsonArrayToExcel`;
+        const apiUrl = 'https://digitek-api-dev.azurewebsites.net/api/TestMotor/ConverJsonArrayToExcel';
         const data = this.outputVariables.concat(this.getInputVariables());
         axios({
           method: 'post',
@@ -148,7 +147,7 @@ export default {
           },
           data: data
         }).then(response => {
-          const blob = response && response.data ? new File([response.data], {type: response.headers['content-type']}) : null;
+          const blob = response && response.data ? new File([response.data], { type: response.headers['content-type'] }) : null;
           saveAs(blob, `${selectedModelId}_test.xlsx`);
         }).catch(error => {
           console.log(error);

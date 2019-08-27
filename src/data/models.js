@@ -4,12 +4,12 @@ export default [
     modelId: 'branntekniskProsjekteringModel',
     modelInputs: {
       typeVirksomhet: 'codeList',
-      antallEtasjer:	'integer',
-      brtArealPrEtasje:	'integer',
+      antallEtasjer: 'integer',
+      brtArealPrEtasje: 'integer',
       arealBrannseksjonPrEtasje: 'integer',
-      brannenergi:	'integer',
-      bygningOffentligUnderTerreng:	'boolean',
-      utgangTerrengAlleBoenheter:	'boolean',
+      brannenergi: 'integer',
+      bygningOffentligUnderTerreng: 'boolean',
+      utgangTerrengAlleBoenheter: 'boolean',
       avstandMellomMotstVinduerIMeter: 'integer',
       brtArealBygg: 'integer',
       kravOmHeis: 'boolean'
