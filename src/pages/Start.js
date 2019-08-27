@@ -25,7 +25,8 @@ export default {
     outputVariables: [],
     filteredOutputVariables: [],
     visibleModelOutputVariables: modelOutputVariables,
-    selectedInputValues: modelInputs,
+    selectedInputValues: { ...modelInputs },
+    autoCompleteInputvalues: { ...modelInputs },
     search: null
   }),
   watch: {
@@ -55,6 +56,18 @@ export default {
     },
     selectFromCodeList(value, bpmnInputKey) {
       this.selectedInputValues[bpmnInputKey] = value;
+      this.autoCompleteInputvalues[bpmnInputKey] = value;
+
+    },
+    closeAutocomplete(prevValue, bpmnInputKey) {
+      setTimeout(function(){
+        const element = document.getElementById(bpmnInputKey).getElementsByTagName('input')[0];
+        // Check if value is in list for supported values
+        if (!this.codeLists[bpmnInputKey].filter(codeListItem => codeListItem.value === element.value).length){ // If value is not in the list
+          // Clear value if value is removed else revert to previous saved value
+          this.autoCompleteInputvalues[bpmnInputKey] = !element.value ? element.value : prevValue;
+        }
+      }.bind(this), 100);
     },
     fetchModels() {
       axios.get('https://digitek-api-dev.azurewebsites.net/api/TestMotor/GetAvailablesBrannProsjekteringsModels').then(response => {

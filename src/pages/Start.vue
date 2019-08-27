@@ -41,7 +41,21 @@
             <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="false" class="md-primary">Nei</md-radio>
             <md-radio v-model="selectedInputValues[bpmnInputKey]" :value="null" class="md-primary">Ikke valgt</md-radio>
           </div>
-          <md-autocomplete v-else-if="bpmnInputType === 'CodeList'" @md-selected="selectFromCodeList($event.value, bpmnInputKey)" :value="selectedInputValues[bpmnInputKey]" :id="bpmnInputKey" :name="bpmnInputKey" :md-options="codeLists[bpmnInputKey]" :md-fuzzy-search="false">
+          <md-autocomplete
+            v-else-if="bpmnInputType === 'CodeList'"
+            @md-selected="selectFromCodeList($event.value, bpmnInputKey)"
+            @md-closed="closeAutocomplete(selectedInputValues[bpmnInputKey], bpmnInputKey)"
+            v-model="autoCompleteInputvalues[bpmnInputKey]"
+            :value="selectedInputValues[bpmnInputKey]"
+            :id="bpmnInputKey"
+            :name="bpmnInputKey"
+            :md-options="codeLists[bpmnInputKey].map(listItem => ({
+              'key': listItem.key,
+              'value': listItem.value,
+              'toLowerCase': () => listItem.key.toLowerCase(),
+              'toString': () => listItem.key
+              }))"
+            :md-fuzzy-search="false">
             <label :for="bpmnInputKey">{{ bpmnInputKey }}</label>
             <template slot="md-autocomplete-item" slot-scope="{ item, term }">
               <md-highlight-text :md-term="term">{{ item.key }}</md-highlight-text>
