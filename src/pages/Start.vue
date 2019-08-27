@@ -14,7 +14,7 @@
     <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
       <md-toolbar class="md-transparent" md-elevation="0">
         <span>modelInputs</span>
-        <div class="md-toolbar-section-end">
+        <div v-if="testResults" class="md-toolbar-section-end">
           <md-button class="md-icon-button md-dense" @click="toggleMenu">
             <md-icon>keyboard_arrow_left</md-icon>
           </md-button>
@@ -74,7 +74,7 @@
 
     </md-app-drawer>
     <md-app-content>
-      <main class='container'>
+      <main v-if='testResults' class='container'>
         <div class="md-layout md-gutter">
           <div class="md-layout-item">
             <md-field>
@@ -98,8 +98,8 @@
               </md-button>
             </md-table-toolbar>
             <md-table-empty-state
-            md-label="No fields found"
-            :md-description="`Fant ingen felter. Prøv et annet søk.`">
+            md-label="Ingen felter tilgjengelig"
+            :md-description="`Fant ingen felter. Nullstill eller prøv et annet søk.`">
           </md-table-empty-state>
           <md-table-row slot="md-table-row" slot-scope="{ item }">
             <md-table-cell
@@ -113,6 +113,15 @@
       </md-table>
     </div>
   </main>
+  <main v-else>
+    <md-empty-state
+      md-rounded
+      md-icon="arrow_back"
+      md-label="Ingen testresultat"
+      md-description="Fyll ut feltene til venstre og klikk 'KJØR TEST'">
+    </md-empty-state>
+  </main>
+
 </md-app-content>
 </md-app>
 </template>
