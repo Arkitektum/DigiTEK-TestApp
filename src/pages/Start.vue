@@ -61,7 +61,7 @@
               <md-highlight-text :md-term="term">{{ item.key }}</md-highlight-text>
             </template>
             <template slot="md-autocomplete-empty" slot-scope="{ term }">
-              Ingen treff for "{{ term }}" i {{ bpmnInputKey }}. <a @click="noop()">Create a new</a> one!
+              Ingen treff for "{{ term }}" i {{ bpmnInputKey }}
             </template>
           </md-autocomplete>
           <md-field v-else>
