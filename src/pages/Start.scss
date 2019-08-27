@@ -15,3 +15,7 @@
 .md-button-content i.material-icons+span{
   vertical-align: super;
 }
+
+.md-autocomplete .md-menu {
+  z-index: 1;
+}
