@@ -9,7 +9,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const env = process.env.NODE_ENV === 'testing'
@@ -30,37 +29,30 @@ const webpackConfig = merge(baseWebpackConfig, {
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
-  optimization: { 
+  optimization: {
     runtimeChunk: 'single',
-    splitChunks: { 
-      chunks: 'all', 
-      cacheGroups: { 
-        default: { 
-          enforce: true, 
-          priority: 1 
-        }, 
-        vendors: { 
-          test: /[\\/]node_modules[\\/]/, 
-          priority: 2, 
-          name: 'vendors', 
-          enforce: true, 
-          chunks: 'all' 
-        } 
-      } 
-    } 
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        default: {
+          enforce: true,
+          priority: 1
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: 2,
+          name: 'vendors',
+          enforce: true,
+          chunks: 'all'
+        }
+      }
+    }
   },
   plugins: [
     new VueLoaderPlugin(),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
-    }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false
-      },
-      sourceMap: config.build.productionSourceMap,
-      parallel: true
     }),
     // extract css into its own file
     new MiniCssExtractPlugin({
