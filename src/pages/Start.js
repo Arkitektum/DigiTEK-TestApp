@@ -176,17 +176,19 @@ export default {
         const variableInfo = variablesForDmnTable.find(variable => {
           return variable && variable.VariabelId && variableKey === variable.VariabelId;
         });
-        return variableInfo ? {
-          ...variableInfo,
-          DmnId: dmnTableInfo.DmnId,
-          DmnNavn: dmnTableInfo.DmnNavn,
-          TekBokstav: dmnTableInfo.TekBokstav,
-          TekKapittel: dmnTableInfo.TekKapitel,
-          TekLedd: dmnTableInfo.TekLedd,
-          TekTabell: dmnTableInfo.TekTabell,
-          TekWebLink: dmnTableInfo.TekWebLink,
-          Type: 'Beregnet verdi'
-        } : null;
+        return variableInfo
+          ? {
+              ...variableInfo,
+              DmnId: dmnTableInfo.DmnId,
+              DmnNavn: dmnTableInfo.DmnNavn,
+              TekBokstav: dmnTableInfo.TekBokstav,
+              TekKapittel: dmnTableInfo.TekKapitel,
+              TekLedd: dmnTableInfo.TekLedd,
+              TekTabell: dmnTableInfo.TekTabell,
+              TekWebLink: dmnTableInfo.TekWebLink,
+              Type: 'Beregnet verdi'
+            }
+          : null;
       } else {
         return null;
       }
