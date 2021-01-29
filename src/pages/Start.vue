@@ -4,7 +4,7 @@
       <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
         <md-icon>menu</md-icon>
       </md-button>
-      <img :src="dibkLogo" />
+      <img :src="dibkLogo" class="dibk-toolbar-logo" />
       <span class="md-title" style="flex: 1"></span>
       <md-button v-on:click="$emit('log-out')">
         <i class="material-icons">exit_to_app</i>

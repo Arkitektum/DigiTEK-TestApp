@@ -10,6 +10,13 @@
 
 .md-toolbar.md-theme-default.md-primary {
   background-color: #072938;
+  padding-left: 0;
+  .dibk-toolbar-logo {
+    width: 177px;
+    @media (min-width:961px){
+      width: 236px;
+    }
+  }
 }
 
 .md-button-content i.material-icons+span{
