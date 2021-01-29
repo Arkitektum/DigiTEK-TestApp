@@ -15,7 +15,8 @@ const mustBeAllowedEmail = (email) => {
     'matias@arkitektum.no',
     'kim@arkitektum.no',
     'benjamin@arkitektum.no',
-    'mcs@dibk.no'
+    'mcs@dibk.no',
+    'johan.svensson@briab.se'
   ];
   return allowedEmails.includes(email);
 };
